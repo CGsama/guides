@@ -1,0 +1,26 @@
+upstream misskey {
+        server YYY.YYY.YYY.YYY:ZZZZ;
+}
+server {
+        listen      xxx.xxx.xxx.xxx:443 ssl;
+        server_name misskey.gothloli.club;
+        ssl_certificate      $path/fullchain.pem;
+        ssl_certificate_key  $path/privkey.pem;
+        location / {
+                proxy_pass      http://misskey;
+        }
+        location /streaming {
+                proxy_pass http://misskey;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+        }
+}
+server {
+        listen xxx.xxx.xxx.xxx:80;
+        server_name misskey.gothloli.club;
+        return 301 https://$host$request_uri;
+}
+
+
+/etc/nginx/conf.d/misskey.gothloli.club.conf

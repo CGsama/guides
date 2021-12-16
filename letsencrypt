@@ -1,0 +1,10 @@
+To let certbot auto reload nginx:
+printf "\ndeploy-hook = systemctl reload nginx\n" >> /etc/letsencrypt/cli.ini; cat /etc/letsencrypt/cli.ini
+
+Nginx config:
+root /var/www/html;
+location /.well-known/acme-challenge/ { allow all; }
+location /.well-known/pki-validation/ { allow all; }
+
+Get cert:
+certbot certonly --webroot -w /var/www/html/ --cert-name domain.com -d domain.com --dry-run

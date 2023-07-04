@@ -1,0 +1,14 @@
+[Unit]
+Description=Sonic Search Index
+After=network.target
+
+[Service]
+Type=simple
+User=sonic
+Group=sonic
+ExecStart=/bin/bash -c 'PATH=/home/sonic/.cargo/bin:$PATH exec sonic -c /home/sonic/config.cfg'
+Restart=on-failure
+LimitNOFILE=4096
+
+[Install]
+WantedBy=multi-user.target
